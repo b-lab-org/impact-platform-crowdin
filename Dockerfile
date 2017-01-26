@@ -7,12 +7,13 @@ ENV CLEANUP_PACKAGES sudo
 RUN apk add --update --no-cache \
     $INSTALL_PACKAGES
     
-ADD 2.0.5 2.0.5
+RUN mkdir -p /tmp    
+ADD crowdin-cli /tmp/crowdin-cli
 
-RUN cd 2.0.5 \
+RUN cd /tmp/crowdin-cli \
     && . crowdin.sh \
     && cd .. \
-    && rm -rf 2.0.5
+    && rm -rf crowdin-cli
 
 RUN apk del $CLEANUP_PACKAGES
 
