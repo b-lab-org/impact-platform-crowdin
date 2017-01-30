@@ -1,19 +1,19 @@
 FROM alpine:3.5
 MAINTAINER "The Impact Bot" <technology@bcorporation.net>
 
-ENV INSTALL_PACKAGES openjdk7-jre curl unzip sudo
-ENV CLEANUP_PACKAGES curl unzip sudo
+ENV INSTALL_PACKAGES openjdk7-jre sudo
+ENV CLEANUP_PACKAGES sudo
 
 RUN apk add --update --no-cache \
     $INSTALL_PACKAGES
+    
+RUN mkdir -p /tmp    
+ADD crowdin-cli /tmp/crowdin-cli
 
-RUN curl -LOk https://crowdin.com/downloads/crowdin-cli.zip \
-    && sudo unzip crowdin-cli.zip \
-    && rm crowdin-cli.zip \
-    && cd 2.0.5 \
+RUN cd /tmp/crowdin-cli \
     && . crowdin.sh \
     && cd .. \
-    && rm -rf 2.0.5
+    && rm -rf crowdin-cli
 
 RUN apk del $CLEANUP_PACKAGES
 
